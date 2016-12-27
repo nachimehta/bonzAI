@@ -43,8 +43,18 @@ export class AutoOperation extends Operation {
         if (!this.flag.room) return;
 
         this.autoLayout();
-
-
+        
+        if (this.memory.seedSelection) {
+            let seed = this.memory.seedSelection;
+            console.log(`found seed for ${this.name}, initiating ${seed.seedType}`);
+            let flagName = `${seed.seedType}_${this.name}`;
+            Memory.flags[flagName] = {
+                centerPosition: {x: seed.origin.x, y: seed.origin.y, roomName: this.flag.pos.roomName},
+                rotation: seed.rotation
+            };
+            
+            this.flag.pos.createFlag(flagName, COLOR_CYAN);
+        }
     }
 
     finalizeOperation() {
